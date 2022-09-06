@@ -4,20 +4,20 @@ import { Link, Outlet } from 'react-router-dom'
 export default function ListLaptop() {
 
   return  <>
-		<h2>Daftar Produk:</h2>
+		<h2>Daftar Merek Laptop:</h2>
 
 		<ul>
 			<li>
 				Mac |
-				<Link to="/detail-produk/Samsung">Lihat Detail</Link>
+				<Link to="list-laptop/detail-produk/Mac">Lihat Detail</Link>
 			</li>
 			<li>
 				Asus |
-				<Link to="/detail-produk/Iphone">Lihat Detail</Link>
+				<Link to="list-laptop/detail-produk/Asus">Lihat Detail</Link>
 			</li>
 			<li>
 				Lenovo |
-				<Link to="/detail-produk/Oppo">Lihat Detail</Link>
+				<Link to="list-laptop/detail-produk/Lenovo">Lihat Detail</Link>
 			</li>
 		</ul>
 	</>
