@@ -85,6 +85,8 @@ export default function FormHandling() {
 		</button>
 		<br />
 		<br />
+		<p>Jika Sudah Memasukan Data Barang Silakan Kembali</p>
+		<br />
 		<button>
 			<Link to="/">
 				Sudah memasukan data
