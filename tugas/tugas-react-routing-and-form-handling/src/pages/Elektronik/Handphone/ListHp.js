@@ -3,21 +3,30 @@ import { Link, Outlet } from 'react-router-dom'
 
 export default function ListHp() {
 
-  return  <>
-		<h2>Daftar Produk:</h2>
+	return <>
+		<h2>Daftar Merek Handphone:</h2>
 
 		<ul>
 			<li>
-				Samsung |
-				<Link to="/detail-produk/Samsung">Lihat Detail</Link>
+				Samsung
+				<br />
+				<Link to="/detail-produk/Samsung">
+					Lihat SpesifikasiHP
+				</Link>
 			</li>
 			<li>
-				Iphone |
-				<Link to="/detail-produk/Iphone">Lihat Detail</Link>
+				Iphone
+				<br />
+				<Link to="/detail-produk/Iphone">
+					Lihat SpesifikasiHP
+				</Link>
 			</li>
 			<li>
-				Oppo |
-				<Link to="/detail-produk/Oppo">Lihat Detail</Link>
+				Oppo
+				<br />
+				<Link to="/detail-produk/Oppo">
+					Lihat SpesifikasiHP
+				</Link>
 			</li>
 		</ul>
 	</>

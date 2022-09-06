@@ -72,10 +72,10 @@ export default function FormHandling() {
 		</label>
 		<br />
 		<br />
-		<label>
+		{/* <label> */}
 			Harga Barang : Rp.
 			<input type="number" onChange={handleInputHarga} value={harga} />
-		</label>
+		{/* </label> */}
 
 		<br />
 		<br />

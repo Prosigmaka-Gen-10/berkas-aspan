@@ -25,7 +25,7 @@ root.render(
           <Route path='elektronik' element={<Elektronik />} >
             <Route path='handphone' element={<Handphone />} >
               <Route path='list-hp' element={<ListHp />} />
-              <Route path='detail-produk/:namaproduk' element={<DetailProduk />} />
+              <Route path='list-hp/detail-produk/:namaproduk' element={<DetailProduk />} />
             </Route>
             <Route path='laptop' element={<Laptop />} >
               <Route path='list-laptop' element={<ListLaptop />} />
