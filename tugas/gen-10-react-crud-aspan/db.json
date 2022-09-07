@@ -1,25 +1,22 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Torabika",
-      "price": 1000
+      "name": "Jus Buah",
+      "price": "10000",
+      "toko": "Circle K",
+      "id": 6
     },
     {
-      "id": 2,
-      "name": "Energen",
-      "price": 1500
+      "name": "kikat",
+      "price": "10000",
+      "toko": "Indomaret",
+      "id": 7
     },
     {
-      "id": 3,
-      "name": "Indomie Rasa Rendang",
-      "price": 4000
-    },
-    {
-      "name": "Muhammad Aspan Yunandar",
-      "price": "",
-      "expired": "",
-      "id": 4
+      "name": "pulpy orange",
+      "price": "5000",
+      "toko": "Alfamaret",
+      "id": 8
     }
   ]
 }

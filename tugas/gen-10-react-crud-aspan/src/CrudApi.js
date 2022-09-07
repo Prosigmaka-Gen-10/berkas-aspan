@@ -1,152 +1,176 @@
-import React from 'react'
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from "axios"
+import { useEffect, useState } from "react"
 
+import Spinner from './Spinner'
 
-export default function CrudApi() {
-    const formDocument = {
-        name: '',
-        price: '',
-        expired: '',
-    }
+export default function CrudApi () {
+	const originalForm = {
+		name: '',
+		price: '',
+        toko: '',
+	}
 
-    const [products, setProducts] = useState([])
-    const [formInput, setFormInput] = useState({ ...formDocument })
+	const [products, setProducts] = useState([])
+	const [formInput, setFormInput] = useState({...originalForm})
+	const [isLoading, setIsLoading] = useState(true)
 
-    async function getAllProduct() {
-        try {
+	async function getAllProduct () {
+		try {
+			setIsLoading(true)
+			const response = await axios.get('http://localhost:3004/products')
 
-            const response = await axios.get('http://localhost:3004/products')
-            setProducts(response.data)
+			console.log(response.data)
+			setProducts(response.data)
 
-        } catch (error) {
-            console.log(error)
-        } finally {
-            alert('Sorry, there was a problem on the server')
-        }
-    }
+		} catch (err) {
+            console.log(err)
+            alert('Problem in [getAllProduct]')
+		} finally {
+			setIsLoading(false)
+            // alert('please Wait [getAllProduct]')
 
-    function handleSubmit(event) {
-        event.preventDefault()
+		}
+	}
 
-        if (formInput.id) {
-            updateProduct()
-        }
-        else {
-            createProduct()
-        }
+	function handleSubmit (event) {
+		event.preventDefault()
 
-        setFormInput({ ...formDocument })
-    }
+		if (formInput.id) { // kalau ada id nya pasti mengupdate
+			updateProduct()
+		}
+		else {
+			createProduct()
+		}
 
-    function createProduct() {
+		setFormInput({...originalForm})
+	}
 
-        axios
-            .post('http://localhost:3004/products'
-                , formInput)
-            .then(() => {
-                getAllProduct()
-            })
-            .catch(error => {
-                console.log(error)
-                alert('Sorry, the server has a issue for processing data')
+	function createProduct () {
+		setIsLoading(true)
+		axios
+			.post('http://localhost:3004/products', formInput)
+			.then(() => {
+				getAllProduct()
+			})
+			.catch(err => {
+				console.log(err)
+                alert('Problem in [createProduct]')
+			})
+			.finally(() => {
+				setIsLoading(false)
+                // alert('Please Wait [createProduct]')
+			})
+	}
 
-            })
-            .finally(() => {
+	function updateProduct () {
+		setIsLoading(true)
+		axios
+			.put('http://localhost:3004/products/' + formInput.id, formInput)
+			.then(() => {
+				getAllProduct()
+			})
+			.catch(err => {
+				console.log(err)
+				alert('Problem in [updateProduct]')
+			})
+			.finally(() => {
+				setIsLoading(false)
+                // alert('Please Wait [updateProduct]')
+                
+			})
+	}
 
-            })
-    }
+	function deleteProduct (productId) {
+		setIsLoading(true)
+		axios
+			.delete('http://localhost:3004/products/' + productId)
+			.then(() => {
+				getAllProduct()
+			})
+			.catch(err => {
+				console.log(err)
+				alert('Problem in [deleteProduct]')
+			})
+			.finally(() => {
+				setIsLoading(false)
+                // alert('Please Wait [deleteProduct]')
+			})
+	}
 
-    function updateProduct() {
-        axios
-            .put('http://localhost:3004/products'
-                + formInput.id, formInput)
-            .then(() => {
-                getAllProduct()
-            })
-            .catch(error => {
-                console.log(error)
-                alert('sorry, you cannot process this website')
-            })
-            .finally(() => {
+	function handleInput (event, propName) {
+		const currentFormInput = {...formInput}
+		currentFormInput[propName] = event.target.value
+		setFormInput(currentFormInput)
+	}
 
-            })
-    }
+	function prepareUpdate (product) {
+		setFormInput({...product})
+	}
 
-    function deleteProduct(productId) {
-        axios
-            .delete('http://localhost:3004/products'
-                + productId)
-            .then(() => {
-                getAllProduct()
-            })
-            .catch(error => {
-                console.log(error)
-                alert('sorry, theres a problem issue')
-            })
-            .finally(() => {
+	useEffect(() => {
+		getAllProduct()
+	}, [])
 
-            })
-    }
+	if (isLoading) return <Spinner />
 
-    function handleInput(event, propName) {
-        const currentFormInput = { ...formInput }
-        currentFormInput[propName] = event.target.value
-        setFormInput(currentFormInput)
-    }
-    function prepareUpdate(product) {
-        setFormInput({ ...product })
-    }
-
-    useEffect(() => {
-        getAllProduct()
-    }, [])
-
-
-    return <>
-        <form onSubmit={event => handleSubmit(event)}>
-            <h2>Form Product</h2>
+	return <>
+		<form onSubmit={event => handleSubmit(event)}>
+			<h2>Form Product:</h2>
 
             <label>
-                Name Product :
-                <input
-                    type="text"
-                    value={formInput.name}
-                    onChange={event => handleInput(event, 'name')} />
-            </label>
-            <br />
-            <label>
-                Product price:
-                <input
-                    type="number"
-                    value={formInput.price}
-                    onChange={event => handleInput(event, 'price')} />
-            </label>
+				Store name:
+				<input
+					type="text"
+					value={formInput.toko}
+					onChange={event => handleInput(event, 'toko')} />
+			</label>
 
-            <br /><br />
+			<br /><br />
 
-            <button>Submit</button>
-        </form>
+			<label>
+				Product name:
+				<input
+					type="text"
+					value={formInput.name}
+					onChange={event => handleInput(event, 'name')} />
+			</label>
 
-        <h2>Product List :</h2>
-        <ul>
-            {products.map(product =>
-                <li key={product.id}>
-                    {product.name} | Rp. {product.price}
+			<br /><br />
 
-                    &nbsp;&nbsp;
-                    <button onClick={() => prepareUpdate(product)}>
-                        Update
-                    </button>
+			<label>
+				Product Price:
+				<input
+					type="number"
+					value={formInput.price}
+					onChange={event => handleInput(event, 'price')} />
+			</label>
 
-                    &nbsp;&nbsp;
-                    <button onClick={() => deleteProduct(product.id)}>
-                        Delete
-                    </button>
+			<br /><br />
 
-                </li>)}
-        </ul>
+			<button>
+				Submit
+			</button>
+		</form>
 
-    </>
+		<br /><hr /><br />
+
+		<h2>Product List:</h2>
+		<ul>
+			{products.map(product =>
+				<li key={product.id}>
+					{product.toko} = {product.name} | Rp. {product.price}
+
+					&nbsp;&nbsp;
+					<button onClick={() => prepareUpdate(product)}>
+						Update
+					</button>
+
+					&nbsp;&nbsp;
+					<button onClick={() => deleteProduct(product.id)}>
+						Delete
+					</button>
+				</li>
+			)}
+		</ul>
+	</>
 }
-
